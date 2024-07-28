@@ -1,56 +1,29 @@
-# Tacotron 2 (without wavenet)
-
-PyTorch implementation of [Natural TTS Synthesis By Conditioning
-Wavenet On Mel Spectrogram Predictions](https://arxiv.org/pdf/1712.05884.pdf). 
-
-This implementation includes **distributed** and **automatic mixed precision** support
-and uses the [LJSpeech dataset](https://keithito.com/LJ-Speech-Dataset/).
-
-Distributed and Automatic Mixed Precision support relies on NVIDIA's [Apex] and [AMP].
-
-Visit our [website] for audio samples using our published [Tacotron 2] and
-[WaveGlow] models.
-
-![Alignment, Predicted Mel Spectrogram, Target Mel Spectrogram](tensorboard.png)
+# Tamil TTS Using Tacotron 2
+The main goal of this project is building the Tamil TTS using Tacotron 2.
 
 
 ## Pre-requisites
 1. NVIDIA GPU + CUDA cuDNN
 
 ## Setup
-1. Download and extract the [LJ Speech dataset](https://keithito.com/LJ-Speech-Dataset/)
-2. Clone this repo: `git clone https://github.com/NVIDIA/tacotron2.git`
-3. CD into this repo: `cd tacotron2`
-4. Initialize submodule: `git submodule init; git submodule update`
-5. Update .wav paths: `sed -i -- 's,DUMMY,ljs_dataset_folder/wavs,g' filelists/*.txt`
-    - Alternatively, set `load_mel_from_disk=True` in `hparams.py` and update mel-spectrogram paths 
-6. Install [PyTorch 1.0]
-7. Install [Apex]
-8. Install python requirements or build docker image 
+1. Download and extract the [Common Voice Dataset] https://commonvoice.mozilla.org/ta/datasets
+2. Clone this repo: `git clone https://github.com/vglug/Tamil-TTS-Using-tacotron2.git`
+3. Create a input text file with the path of the audio files and the sentence of the audio
+4. Install [PyTorch 1.0]
+5. Install [Apex]
+6. Install python requirements or build docker image 
     - Install python requirements: `pip install -r requirements.txt`
 
 ## Training
 1. `python train.py --output_directory=outdir --log_directory=logdir`
 2. (OPTIONAL) `tensorboard --logdir=outdir/logdir`
 
-## Training using a pre-trained model
-Training using a pre-trained model can lead to faster convergence  
-By default, the dataset dependent text embedding layers are [ignored]
-
-1. Download our published [Tacotron 2] model
-2. `python train.py --output_directory=outdir --log_directory=logdir -c tacotron2_statedict.pt --warm_start`
-
-## Multi-GPU (distributed) and Automatic Mixed Precision Training
-1. `python -m multiproc train.py --output_directory=outdir --log_directory=logdir --hparams=distributed_run=True,fp16_run=True`
-
 ## Inference demo
-1. Download our published [Tacotron 2] model
-2. Download our published [WaveGlow] model
+1. Give your tained model 
+2. Download [WaveGlow] model
 3. `jupyter notebook --ip=127.0.0.1 --port=31337`
-4. Load inference.ipynb 
-
-N.b.  When performing Mel-Spectrogram to Audio synthesis, make sure Tacotron 2
-and the Mel decoder were trained on the same mel-spectrogram representation. 
+4. Load inference_for_tamil_language.ipynb
+5. Execute the steps one by one in the final step you will the audio of the given text
 
 
 ## Related repos
